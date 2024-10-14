@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="vacancy">
+    
+    <h1>{{ resume.name }} {{ resume.last_name }}'s Resume</h1>
+    <p>Dream Job: {{ resume.dream_job }}</p>
+    <p>Skills:
+        {% for skill in resume.skills.all %}
+            {{ skill.name }} ({{ skill.percent }}%) {% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <p>Experience: {{ resume.experience }}</p>
+    <p>Education: {{ resume.education }}</p>
+    <p>Email: {{ resume.email }}</p>
+    <p>Phone: {{ resume.phone }}</p>
+        </div>
+    
+    <a class="a" href="{% url 'resume_list' %}">Back to Resumes</a>
+{% endblock %}

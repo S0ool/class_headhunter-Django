@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="vacancy">
+    
+    <h1>{{ vacancy.title }}</h1>
+    <p>Company: {{ vacancy.company.name }}</p>
+    <p>Salary: ${{ vacancy.salary }}</p>
+    <p>Description: {{ vacancy.description }}</p>
+    <p>Skills Required:
+        {% for skill in vacancy.skills.all %}
+            {{ skill.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+        </div>
+    <nav class="vacancy_nav">
+    <a href="{% url 'vacancy_list' %}">Back to Vacancies</a>
+    {% if request.user.id != vacancy.created_by.id %}
+        <a href="{% url 'vacancy_update' vacancy_id=vacancy.id %}">Edit Vacancy</a>
+        <a href="{% url 'vacancy_delete' vacancy_id=vacancy.id %}">Delete Vacancy</a>
+    {% endif %}
+    </nav>
+{% endblock %}

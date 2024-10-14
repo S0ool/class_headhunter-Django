@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="profile">
+        <p>Name: {% if request.user.username %}{{ request.user.username }}{% else %}No name{% endif %}</p>
+        <p>Email: {% if request.user.email %}{{ request.user.email }}{% else %}No email{% endif %}</p>
+        <p>Role: {% if request.user.is_staff %}Staff {% else %} User {% endif %}</p>
+    </div>
+    {% if request.user.is_staff %}
+
+    <h2>Staff Profile</h2>
+    <div class="profile_vacancy">
+    <div class="vacancy_container">
+
+    {% for vacancy in vacancies %}
+        <div class="vacancy">
+        <a href="{% url 'vacancy_detail' vacancy_id=vacancy.id %}">Title: {{ vacancy.title }}</a>
+        <p>Description: {{ vacancy.description }}</p>
+        <p>Skills Required:
+            {% for skill in vacancy.skills.all %}
+                {{ skill.name }} {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        </div>
+    {% endfor %}
+    </div>
+
+    </div>
+        <a href="{% url 'vacancy_create' %}">Create Vacancy</a>
+
+
+{% else %}
+    {% if request.user.resume %}
+        <h2>Your Resume</h2>
+        <p>Dream Job: {{ request.user.resume.dream_job }}</p>
+        <p>Name: {{ request.user.resume.name }} {{ request.user.resume.last_name }}</p>
+        <p>Email: {{ request.user.resume.email }}</p>
+        <p>Phone: {{ request.user.resume.phone }}</p>
+        <a href="{% url 'resume_update' request.user.resume.id %}">Edit Resume</a>
+        <a href="{% url 'resume_delete' request.user.resume.id %}">Delete Resume</a>
+    {% else %}
+        <p>You haven't created a resume yet.</p>
+        <a href="{% url 'resume_create' %}">Create Resume</a>
+    {% endif %}
+{% endif %}
+</div>
+{% endblock %}

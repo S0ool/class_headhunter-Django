@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to JobFinder</h1>
+    <p>Find your dream job or the perfect candidate for your company.</p>
+    <a href="{% url 'vacancy_list' %}">Browse Vacancies</a> |
+    {% if request.user.is_staff %}
+        <a href="{% url 'resume_list' %}">Browse Resumes</a> |
+    {% endif %}
+    <a href="{% url 'profile_page' %}">Your Profile</a>
+{% endblock %}

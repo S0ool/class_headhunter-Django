@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobFinder</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body style="background-image: url('{% static 'bg.webp' %}');">
+    <header>
+        <h1>JobFinder</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'start_page' %}">Home</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'profile_page' %}">Profile</a></li>
+                    <li><a href="{% url 'logout_page' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>

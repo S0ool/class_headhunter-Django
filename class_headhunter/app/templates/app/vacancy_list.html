@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Vacancies</h1>
+
+    <form method="get" action="">
+        <input type="text" name="search" placeholder="Search by title, skills, or description" value="{{ request.GET.search }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <ul>
+        {% for vacancy in vacancies %}
+            <li>
+                <a href="{% url 'vacancy_detail' vacancy.id %}">{{ vacancy.title }}</a>
+                at {{ vacancy.company.name }}
+            </li>
+        {% empty %}
+            <li>No vacancies available</li>
+        {% endfor %}
+    </ul>
+    {% if request.user.is_staff %}
+      <a class="a" href="{% url 'vacancy_create' %}">Create new vacancy</a>
+    {% endif %}
+{% endblock %}
